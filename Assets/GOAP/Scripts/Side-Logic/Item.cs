@@ -9,6 +9,8 @@ public enum ItemType
 	Entity,
 	Mace,
 	PastaFrola,
+	Loot,
+	Chest
 }
 
 public class Item : MonoBehaviour

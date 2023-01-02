@@ -58,7 +58,10 @@ public class GoapState
 //Aca hay una mezcla de lo  anterior con lo nuevo, no necesariamente tiene que haber un diccionario aca adentro
 public struct WorldState
 {
-    public int playerHP;
+    public float playerHP;
+    public int resourses;
+    public bool enemyClose;
+    public string currentItem;
     public Dictionary<string, bool> values;
 
     //MUY IMPORTANTE TENER UN CLONE PARA NO TENER REFENCIAS A LO VIEJO
