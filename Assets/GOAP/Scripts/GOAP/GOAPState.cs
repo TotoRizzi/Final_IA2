@@ -59,9 +59,12 @@ public class GoapState
 public struct WorldState
 {
     public float playerHP;
+
+    public float stamina;
     public int resourses;
-    public bool enemyClose;
-    public string currentItem;
+    public bool hasAxe;
+    public string chestResourses;
+    public bool bridgeBuilt;
     public Dictionary<string, bool> values;
 
     //MUY IMPORTANTE TENER UN CLONE PARA NO TENER REFENCIAS A LO VIEJO

@@ -128,34 +128,59 @@ public class WorkerPlanner : MonoBehaviour
     {
         return new List<GoapAction>()
         {
-              new GoapAction("Harvest")
-                .SetCost(1f)
-                .SetItem(ItemType.Loot)
-                .Pre("currentLoot"+ ItemType.Key.ToString(), false)
-
-                .Effect("currentLoot"+ ItemType.Key.ToString(), true)
-                
-
-            , new GoapAction("Attack")
+              new GoapAction("ChopChop")
                 .SetCost(2f)
-                .SetItem(ItemType.Entity)
-                .Pre("enemyClose"+ ItemType.Key.ToString(), true)
+                .SetItem(ItemType.Loot)
 
-                .Effect("enemyClose"+ ItemType.Key.ToString(), false)
+                .Pre(x =>  x.worldState.resourses < 6 &&
+                           x.worldState.hasAxe)
 
+                .Effect(x =>
+                {
+                    x.worldState.resourses += 5;
+                    return x;
+                })
+                
             , new GoapAction("SaveLoot")
-                .SetCost(1f)
+                .SetCost(2f)
                 .SetItem(ItemType.Chest)
-                .Pre("currentLoot"+ ItemType.Mace.ToString(), true)
 
-                .Effect("currentLoot"+ ItemType.Mace.ToString(), false)
+                .Pre(x =>  x.worldState.resourses >= 5)
 
-            , new GoapAction("Heal")
+                .Effect(x =>
+                {
+                    x.worldState.chestResourses += 5;
+                    x.worldState.resourses -= 5;
+                    return x;
+                })
+
+            , new GoapAction("PickUpAxe")
                 .SetCost(1f)
                 .SetItem(ItemType.Entity)
-                .Pre("currentHp"+ ItemType.Key.ToString(), false)
 
-                .Effect("currentHp"+ ItemType.Key.ToString(), true)
+                .Pre(x => !x.worldState.hasAxe)
+
+                .Effect(x =>
+                {
+                    x.worldState.hasAxe = true;
+                    return x;
+                })
+
+            , new GoapAction("BuildBridge")
+                .SetCost(10f)
+                .SetItem(ItemType.Entity)
+
+                .Pre(x =>  x.worldState.chestResourses == "Full" &&
+                          !x.worldState.bridgeBuilt)
+
+                .Effect(x =>
+                {
+                    x.worldState.chestResourses = "Empty";
+                    x.worldState.bridgeBuilt = true;
+                    return x;
+                })
+
+
         };
     }
 
