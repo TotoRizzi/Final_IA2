@@ -54,10 +54,7 @@ public class WorkerPlanner : MonoBehaviour
         initial.worldState = new WorldState()
         {
             playerHP = 10,
-            currentItem = "",
-            resourses = 0,
-            enemyClose = false,
-            
+
             values = new Dictionary<string, bool>()
         };
 
