@@ -73,6 +73,11 @@ public struct WorldState
         return new WorldState()
         {
             playerHP = this.playerHP,
+            stamina = this.stamina,
+            resourses = this.resourses,
+            hasAxe = this.hasAxe,
+            chestResourses = this.chestResourses,
+            bridgeBuilt = this.bridgeBuilt,
             values = this.values.ToDictionary(kv => kv.Key, kv => kv.Value)
         };
     }

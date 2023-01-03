@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
+
+/*
 public class Planner : MonoBehaviour 
 {
 	private readonly List<Tuple<Vector3, Vector3>> _debugRayList = new List<Tuple<Vector3, Vector3>>();
@@ -226,3 +228,4 @@ public class Planner : MonoBehaviour
 		}
 	}
 }
+*/

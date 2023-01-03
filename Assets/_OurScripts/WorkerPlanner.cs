@@ -16,10 +16,10 @@ public class WorkerPlanner : MonoBehaviour
     private void Check(Dictionary<string, bool> state, ItemType type)
     {
 
-        var items = Navigation.instance.AllItems();
-        var inventories = Navigation.instance.AllInventories();
-        var floorItems = items.Except(inventories);//devuelve una coleccion como la primera pero removiendo los que estan en la segunda
-        var item = floorItems.FirstOrDefault(x => x.type == type);
+        var items = Navigation.instance.AllItems(); //Todos los items
+        var inventories = Navigation.instance.AllInventories(); //Todos los items que tiene el Pj
+        var floorItems = items.Except(inventories);//devuelve Todos los items pero removiendo los que tiene el Pj
+        var item = floorItems.FirstOrDefault(x => x.type == type);//El primer item que sea del mismo tipo que le pasa por parametro
         var here = transform.position;
         state["accessible" + type.ToString()] = item != null && Navigation.instance.Reachable(here, item.transform.position, _debugRayList);
 
@@ -35,17 +35,17 @@ public class WorkerPlanner : MonoBehaviour
 
         var observedState = new Dictionary<string, bool>();
 
-        var nav = Navigation.instance;//Consigo los items
+        var nav = Navigation.instance;
         var floorItems = nav.AllItems();
         var inventory = nav.AllInventories();
         var everything = nav.AllItems().Union(nav.AllInventories());// .Union() une 2 colecciones sin agregar duplicados(eso incluye duplicados en la misma coleccion)
 
         //Chequeo los booleanos para cada Item, generando mi modelo de mundo (mi diccionario de bools) en ObservedState
-        Check(observedState, ItemType.Key);
-        Check(observedState, ItemType.Entity);
-        Check(observedState, ItemType.Mace);
-        Check(observedState, ItemType.PastaFrola);
-        Check(observedState, ItemType.Door);
+        Check(observedState, ItemType.Loot);
+        Check(observedState, ItemType.Chest);
+        Check(observedState, ItemType.Axe);
+        //Check(observedState, ItemType.PastaFrola);
+        //Check(observedState, ItemType.Door);
 
         var actions = CreatePossibleActionsList();
 
@@ -54,7 +54,11 @@ public class WorkerPlanner : MonoBehaviour
         initial.worldState = new WorldState()
         {
             playerHP = 10,
-
+            stamina = 10,
+            resourses = 0,
+            hasAxe = false,
+            chestResourses = "",
+            bridgeBuilt = false,
             values = new Dictionary<string, bool>()
         };
 
@@ -67,12 +71,12 @@ public class WorkerPlanner : MonoBehaviour
         }
 
         GoapState goal = new GoapState();
-        goal.worldState.values["has" + ItemType.PastaFrola.ToString()] = true;
+        goal.worldState.values["built" + ItemType.Bridge.ToString()] = true;
 
         Func<GoapState, float> heuristc = (curr) =>
         {
             int count = 0;
-            string key = "has" + ItemType.PastaFrola.ToString();
+            string key = "built" + ItemType.Bridge.ToString();
             if (!curr.worldState.values.ContainsKey(key) || !curr.worldState.values[key])
                 count++;
             if (curr.worldState.playerHP <= 45)
@@ -82,8 +86,8 @@ public class WorkerPlanner : MonoBehaviour
 
         Func<GoapState, bool> objectice = (curr) =>
         {
-            string key = "has" + ItemType.PastaFrola.ToString();
-            return curr.worldState.values.ContainsKey(key) && curr.worldState.values["has" + ItemType.PastaFrola.ToString()]
+            string key = "built" + ItemType.Bridge.ToString();
+            return curr.worldState.values.ContainsKey(key) && curr.worldState.values[key]
                    && curr.worldState.playerHP > 45;
         };
 

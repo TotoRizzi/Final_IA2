@@ -3,14 +3,21 @@ using System.Collections;
 
 public enum ItemType
 {
-	Invalid,
-	Key,
-	Door,
-	Entity,
-	Mace,
-	PastaFrola,
+	//Invalid,
+	//Key,
+	//Door,
+	//Entity,
+	//Mace,
+	//Axe,
+	//Loot,
+	//Chest
+	Tree,
 	Loot,
-	Chest
+	Chest,
+	Entity,
+	Axe,
+	Bridge,
+	Obstacle
 }
 
 public class Item : MonoBehaviour

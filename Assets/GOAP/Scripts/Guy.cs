@@ -8,11 +8,18 @@ using IA2;
 public enum ActionEntity
 {
 	Kill,
-    PickUp,
+	PickUp,
 	NextStep,
 	FailedStep,
 	Open,
-	Success
+	Success,
+
+	//PROPIOS
+	//NextStep,
+	//FailedStep,
+	//PickUp,
+	//Rest,
+	//Walk
 }
 
 public class Guy : MonoBehaviour
@@ -27,11 +34,11 @@ public class Guy : MonoBehaviour
 	private void PerformAttack(Entity us, Item other) {
 		Debug.Log("PerformAttack",other.gameObject);
 		if(other != _target) return;
-
-		var mace = _ent.items.FirstOrDefault(it => it.type == ItemType.Mace);
+	
+		var mace = _ent.items.FirstOrDefault(it => it.type == ItemType.Axe);
 		if(mace) {
 			other.Kill();
-			if(other.type == ItemType.Door)
+			if(other.type == ItemType.Tree)
 				Destroy(_ent.Removeitem(mace).gameObject);
 			_fsm.Feed(ActionEntity.NextStep);
 		}
@@ -42,10 +49,10 @@ public class Guy : MonoBehaviour
 	private void PerformOpen(Entity us, Item other) {
 		if(other != _target) return;
 
-		var key = _ent.items.FirstOrDefault(it => it.type == ItemType.Key);
-		var door = other.GetComponent<Door>();
+		var key = _ent.items.FirstOrDefault(it => it.type == ItemType.Chest);
+		var door = other.GetComponent<Door>(); //Aqui obtendriamos el componente de Chest
 		if(door && key) {
-			door.Open();
+			door.Open();  //Chest.Build();
 			Destroy(_ent.Removeitem(key).gameObject);
 			_fsm.Feed(ActionEntity.NextStep);
 		}
