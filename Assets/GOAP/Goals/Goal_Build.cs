@@ -13,8 +13,6 @@ public class Goal_Build : Goal_Base
 
     public override bool CanRun()
     {
-        Debug.Log("Can Run Goal_Build");
-
-        return worldState.currentChestWood == "Full";
+        return (worldState.stringValues[WorldStateValues.currentChestWood] == "Full");
     }
 }

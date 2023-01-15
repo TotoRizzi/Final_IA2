@@ -13,12 +13,14 @@ public class Action_SaveLoot : Action_Base
 
     public override void OnTick()
     {
-        worldState.currentStamina -= Time.deltaTime;
+        float currentStamina = worldState.floatValues[WorldStateValues.currentStamina];
+        currentStamina -= Time.deltaTime;
 
-        var chest = FindObjectOfType<WorldState_Chest>();
-        chest.SaveLoot(worldState.currentWoodOnMe);
+        worldState.floatValues[WorldStateValues.currentStamina] = currentStamina;
 
-        worldState.currentWoodOnMe = 0;
+        var chest = FindObjectOfType<Item_Chest>();
+        chest.SaveLoot();
+        worldState.intValues[WorldStateValues.currentWoodOnMe] = 0;
 
         /*
          
@@ -38,6 +40,7 @@ public class Action_SaveLoot : Action_Base
 
         Debug.Log("Save loot");
 
+        Vector3 dirToGo = worldState.items[Items.Chest].transform.position;
         //Que busque el camino con A* al cofre para guardarlo
     }
 }

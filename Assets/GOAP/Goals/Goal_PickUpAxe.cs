@@ -13,8 +13,9 @@ public class Goal_PickUpAxe : Goal_Base
 
     public override bool CanRun()
     {
-        Debug.Log("Can Run Goal_PickUpAxe");
+       // Debug.Log("Can Run Goal_PickUpAxe");
 
-        return !worldState.hasAxe;
+        // return !worldState.hasAxe;
+        return !(worldState.boolValues[WorldStateValues.hasAxe]);
     }
 }

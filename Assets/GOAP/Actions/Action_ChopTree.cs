@@ -13,9 +13,11 @@ public class Action_ChopTree : Action_Base
 
     public override void OnTick()
     {
-        worldState.currentStamina -= Time.deltaTime;
+        float currentStamina = worldState.floatValues[WorldStateValues.currentStamina];
+        currentStamina -= Time.deltaTime;
 
-        worldState.currentWoodOnMe += 5;
+        worldState.floatValues[WorldStateValues.currentStamina] = currentStamina;
+        worldState.intValues[WorldStateValues.currentWoodOnMe] = 5;
 
         /*
         if(Vector3.Distance(arbol) < .1f)
@@ -30,6 +32,8 @@ public class Action_ChopTree : Action_Base
         base.OnActivated(_linkedGoal);
 
         Debug.Log("Chop Tree");
+
+        Vector3 dirToGo = worldState.items[Items.Tree].transform.position;
 
         //Que busque el camino con A* al arbol para cortarlo
     }

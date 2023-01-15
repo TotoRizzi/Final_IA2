@@ -13,10 +13,14 @@ public class Goal_SaveLoot : Goal_Base
 
     public override bool CanRun()
     {
-        Debug.Log("Can Run Save Loot");
+        //Debug.Log("Can Run Save Loot");
 
-        if (worldState.currentStamina <= 0) 
+        /*if (worldState.currentStamina <= 0) 
             return false;
-        else return worldState.currentWoodOnMe == 5;
+        else return worldState.currentWoodOnMe == 5;*/
+
+        if (worldState.floatValues[WorldStateValues.currentStamina] <= 0)
+            return false;
+        else return worldState.intValues[WorldStateValues.currentWoodOnMe] == 5;
     }
 }

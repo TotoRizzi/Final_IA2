@@ -13,10 +13,10 @@ public class Goal_ChopTree : Goal_Base
 
     public override bool CanRun()
     {
-        Debug.Log("Can Run Goal_ChopTree");
-
-        if (worldState.currentStamina <= 0 || worldState.hasAxe == false || worldState.bridgeBuilt == true) 
+        if (worldState.floatValues[WorldStateValues.currentStamina] <= 0f || worldState.boolValues[WorldStateValues.hasAxe] == false || worldState.boolValues[WorldStateValues.bridgeBuilt] == true)
             return false;
-        else return !(worldState.currentWoodOnMe == 5);
+        else if (!(worldState.intValues[WorldStateValues.currentWoodOnMe] == 5))
+            return true;
+        else return false;
     }
 }

@@ -13,7 +13,7 @@ public class Action_Rest : Action_Base
 
     public override void OnTick()
     {
-        worldState.currentStamina = 5;
+        worldState.floatValues[WorldStateValues.currentStamina] = 5;
     }
 
     public override void OnActivated(Goal_Base _linkedGoal)

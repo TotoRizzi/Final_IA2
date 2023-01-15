@@ -13,10 +13,11 @@ public class Action_Build : Action_Base
 
     public override void OnTick()
     {
-        worldState.currentStamina -= Time.deltaTime;
+        float currentStamina = worldState.floatValues[WorldStateValues.currentStamina];
+        currentStamina -= Time.deltaTime;
 
-        worldState.bridgeBuilt = true;
-
+        worldState.floatValues[WorldStateValues.currentStamina] = currentStamina;
+        worldState.boolValues[WorldStateValues.bridgeBuilt] = true;
 
         /*
         if(Vector3.Distance(maquina) < .1f)
@@ -29,8 +30,9 @@ public class Action_Build : Action_Base
     public override void OnActivated(Goal_Base _linkedGoal)
     {
         base.OnActivated(_linkedGoal);
-
         Debug.Log("Build");
+
+        Vector3 dirToGo = worldState.items[Items.Bridge].transform.position;
 
         //Que busque el camino con A* a la maquina para activarla
     }

@@ -13,11 +13,11 @@ public class Action_PickUpAxe : Action_Base
 
     public override void OnTick()
     {
-        worldState.currentStamina -= Time.deltaTime;
+        float currentStamina = worldState.floatValues[WorldStateValues.currentStamina];
+        currentStamina -= Time.deltaTime;
 
-        worldState.hasAxe = true;
-
-
+        worldState.floatValues[WorldStateValues.currentStamina] = currentStamina;
+        worldState.boolValues[WorldStateValues.hasAxe] = true;
         /*
         if (Vector3.Distance(Hacha) < .1f)
         {
@@ -31,6 +31,7 @@ public class Action_PickUpAxe : Action_Base
         base.OnActivated(_linkedGoal);
 
         Debug.Log("Has Axe");
+        Vector3 dirToGo = worldState.items[Items.Axe].transform.position;
 
         //Que busque el camino con A* al hacha para agarrala
     }
