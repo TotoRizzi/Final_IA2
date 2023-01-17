@@ -13,8 +13,6 @@ public class Item : MonoBehaviour
 {
     [SerializeField] Items _myItem;
     protected WorldState worldState;
-
-
     public virtual void Start()
     {
         worldState = WorldState.instance;
@@ -22,7 +20,7 @@ public class Item : MonoBehaviour
     }
     public virtual void ActionOnTrigger()
     {
-
+       
     }
     private void OnTriggerEnter(Collider other)
     {
