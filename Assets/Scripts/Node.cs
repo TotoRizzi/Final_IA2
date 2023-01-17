@@ -17,7 +17,6 @@ public class Node : MonoBehaviour
             {
                 if (!IsBlocked(item.transform.position, .1f, GameManager.Instance.GroundMask))
                     Destroy(item.gameObject);
-                if (InSight(transform.position, item.transform.position, GameManager.Instance.ItemMask)) continue;
 
                 neighbors.Add(item.GetComponent<Node>());
             }

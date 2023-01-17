@@ -22,5 +22,11 @@ public class Action_Rest : Action_Base
 
         Debug.Log("Rest");
         //que cambie la fsm a idle
+        _guy.SendInputToFsm(PlayerActions.REST);
+    }
+    public override void OnDeactivated()
+    {
+        base.OnDeactivated();
+        _guy.SendInputToFsm(PlayerActions.RUN);
     }
 }

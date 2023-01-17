@@ -18,9 +18,9 @@ public class Action_SaveLoot : Action_Base
 
         worldState.floatValues[WorldStateValues.currentStamina] = currentStamina;
 
-        var chest = FindObjectOfType<Item_Chest>();
-        chest.SaveLoot();
-        worldState.intValues[WorldStateValues.currentWoodOnMe] = 0;
+        //var chest = FindObjectOfType<Item_Chest>();
+        //chest.SaveLoot();
+        //worldState.intValues[WorldStateValues.currentWoodOnMe] = 0; // YA LO HACE EN EL ITEM
 
         /*
          
@@ -40,7 +40,9 @@ public class Action_SaveLoot : Action_Base
 
         Debug.Log("Save loot");
 
-        Vector3 dirToGo = worldState.items[Items.Chest].transform.position;
+        Vector3 dirToGo = worldState.items[Items.Chest].transform.position; // NO SE POR QUE NO FUNCIONA
         //Que busque el camino con A* al cofre para guardarlo
+        Debug.Log(dirToGo);
+        _guy.SetPath(dirToGo);
     }
 }

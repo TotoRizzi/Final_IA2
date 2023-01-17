@@ -11,7 +11,6 @@ public class Item_Chest : Item
         base.Start();
         worldState.stringValues.Add(WorldStateValues.currentChestWood, "Empty");
         WorldState.instance.floatValues.Add(WorldStateValues.currentStamina, 0.0f);
-
     }
 
     public void SaveLoot()
@@ -26,5 +25,6 @@ public class Item_Chest : Item
     public override void ActionOnTrigger()
     {
         SaveLoot();
+        worldState.intValues[WorldStateValues.currentWoodOnMe] = 0;
     }
 }

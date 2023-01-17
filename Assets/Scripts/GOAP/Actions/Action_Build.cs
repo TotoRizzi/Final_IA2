@@ -17,7 +17,7 @@ public class Action_Build : Action_Base
         currentStamina -= Time.deltaTime;
 
         worldState.floatValues[WorldStateValues.currentStamina] = currentStamina;
-        worldState.boolValues[WorldStateValues.bridgeBuilt] = true;
+        //worldState.boolValues[WorldStateValues.bridgeBuilt] = true;   //YA LO HACE EN EL ITEM
 
         /*
         if(Vector3.Distance(maquina) < .1f)

@@ -1,96 +1,82 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-public enum PlayerActions { BUILD, CHOP_TREE, PICK_UP_AXE, REST, SAVE_LOOT }
+using UnityEngine.UI;
+public enum PlayerActions { RUN, REST, SUCCESS }
 public class Guy : MonoBehaviour
 {
     [SerializeField] List<Node> _path = new List<Node>();
     [SerializeField] float _moveSpeed;
+    [SerializeField] Transform _successPos;
+    [SerializeField] Text _successTxt;
 
     Node _startingNode;
     Node _goalNode;
     EventFSM<PlayerActions> _fsm;
-    WorldState _worldState;
     private void Start()
     {
-        var build = new State<PlayerActions>("BUILD");
-        var chopTree = new State<PlayerActions>("CHOP TREE");
-        var pickUpAxe = new State<PlayerActions>("PICK UP AXE");
+        var run = new State<PlayerActions>("RUN");
         var rest = new State<PlayerActions>("REST");
-        var saveLoot = new State<PlayerActions>("SAVE LOOT");
+        var success = new State<PlayerActions>("SUCCESS");
 
-        StateConfigurer.Create(pickUpAxe)
-            .SetTransition(PlayerActions.CHOP_TREE, pickUpAxe)
+        StateConfigurer.Create(run)
             .SetTransition(PlayerActions.REST, rest)
-            .Done();
-
-        StateConfigurer.Create(chopTree)
-            .SetTransition(PlayerActions.SAVE_LOOT, saveLoot)
-            .SetTransition(PlayerActions.REST, rest)
-            .Done();
-
-        StateConfigurer.Create(saveLoot)
-            .SetTransition(PlayerActions.CHOP_TREE, chopTree)
-            .SetTransition(PlayerActions.REST, rest)
-            .SetTransition(PlayerActions.BUILD, build)
+            .SetTransition(PlayerActions.SUCCESS, success)
             .Done();
 
         StateConfigurer.Create(rest)
-            .SetTransition(PlayerActions.CHOP_TREE, chopTree)
-            .SetTransition(PlayerActions.BUILD, build)
-            .SetTransition(PlayerActions.SAVE_LOOT, saveLoot)
-            .SetTransition(PlayerActions.PICK_UP_AXE, pickUpAxe)
+            .SetTransition(PlayerActions.RUN, run)
             .Done();
 
-        StateConfigurer.Create(build).Done();
-
-        _worldState = WorldState.instance;
+        StateConfigurer.Create(success)
+            .Done();
 
         #region PickUpAxe
-        pickUpAxe.OnEnter += x =>
+        run.OnEnter += x =>
         {
-            Debug.Log("Pick Up Axe");
-            SetPath(_worldState.items[Items.Axe].transform.position);
+            //Debug.Log("Run");
         };
 
-        pickUpAxe.OnUpdate += GoTo;
+        run.OnUpdate += GoTo;
 
         #endregion
 
         #region ChopTree
 
-        chopTree.OnEnter += x =>
+        rest.OnEnter += x =>
         {
-            Debug.Log("Chop Tree");
+            //Debug.Log("Rest");
         };
 
-        chopTree.OnUpdate += GoTo;
+        rest.OnUpdate += GoTo;
 
         #endregion
 
-        #region SaveLoot
+        #region Success
 
-        saveLoot.OnEnter += x =>
+        success.OnEnter += x =>
         {
-            Debug.Log("Save Loot");
+            //Debug.Log("Success");
+            SetPath(_successPos.position);
         };
 
-        saveLoot.OnUpdate += GoTo;
+        success.OnUpdate += () =>
+        {
+            GoTo();
+            Success();
+        };
 
         #endregion
 
-        #region Build
-
-        build.OnEnter += x =>
-        {
-            Debug.Log("Build");
-        };
-
-        build.OnUpdate += GoTo;
-
-        #endregion
-
-        _fsm = new EventFSM<PlayerActions>(pickUpAxe);
+        _fsm = new EventFSM<PlayerActions>(run);
     }
+
+    private void Success()
+    {
+        if (_path.Count <= 0)
+            _successTxt.text = "SUCCESS";
+    }
+
     void Update()
     {
         _fsm.Update();
@@ -112,11 +98,10 @@ public class Guy : MonoBehaviour
         AStar aStar = new AStar();
         StartCoroutine(aStar.ConstructPathAStar(GetStartingNode(), GetGoalNode(goalPos), x => _path = x));
     }
-
-    //public void SendInputToFsm(PlayerActions nextStep)
-    //{
-    //    _fsm.SendInput(nextStep);
-    //}
+    public void SendInputToFsm(PlayerActions nextStep)
+    {
+        _fsm.SendInput(nextStep);
+    }
     Node GetStartingNode()
     {
         Node[] allNodes = FindObjectsOfType<Node>();

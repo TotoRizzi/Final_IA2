@@ -15,7 +15,7 @@ public class Action_PickUpAxe : Action_Base
         currentStamina -= Time.deltaTime;
 
         worldState.floatValues[WorldStateValues.currentStamina] = currentStamina;
-        worldState.boolValues[WorldStateValues.hasAxe] = true;
+        //worldState.boolValues[WorldStateValues.hasAxe] = true;  //YA LO HACE EN EL ITEM
         /*
         if (Vector3.Distance(Hacha) < .1f)
         {

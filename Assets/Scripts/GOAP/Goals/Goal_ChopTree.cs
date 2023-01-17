@@ -11,12 +11,7 @@ public class Goal_ChopTree : Goal_Base
         return _priority;
     }
 
-    public override bool CanRun()
-    {
-        if (worldState.floatValues[WorldStateValues.currentStamina] <= 0f || worldState.boolValues[WorldStateValues.hasAxe] == false || worldState.boolValues[WorldStateValues.bridgeBuilt] == true)
-            return false;
-        else if (!(worldState.intValues[WorldStateValues.currentWoodOnMe] == 5))
-            return true;
-        else return false;
-    }
+    public override bool CanRun() => worldState.floatValues[WorldStateValues.currentStamina] <= 0f || !worldState.boolValues[WorldStateValues.hasAxe] || worldState.boolValues[WorldStateValues.bridgeBuilt] ?
+            false : !(worldState.intValues[WorldStateValues.currentWoodOnMe] == 5) ? true : false;
+    
 }

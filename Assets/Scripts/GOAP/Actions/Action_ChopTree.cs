@@ -17,7 +17,7 @@ public class Action_ChopTree : Action_Base
         currentStamina -= Time.deltaTime;
 
         worldState.floatValues[WorldStateValues.currentStamina] = currentStamina;
-        worldState.intValues[WorldStateValues.currentWoodOnMe] = 5;
+        //worldState.intValues[WorldStateValues.currentWoodOnMe] = 5;  //YA LO HACE EN EL ITEM
 
         /*
         if(Vector3.Distance(arbol) < .1f)
@@ -36,5 +36,6 @@ public class Action_ChopTree : Action_Base
         Vector3 dirToGo = worldState.items[Items.Tree].transform.position;
 
         //Que busque el camino con A* al arbol para cortarlo
+        _guy.SetPath(dirToGo);
     }
 }

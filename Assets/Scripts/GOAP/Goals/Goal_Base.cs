@@ -40,10 +40,7 @@ public class Goal_Base : MonoBehaviour, IGoal
         return -1;
     }
 
-    public virtual bool CanRun()
-    {
-        return false;
-    }
+    public virtual bool CanRun() => false;
 
     public virtual void OnTickGoal()
     {

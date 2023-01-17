@@ -11,11 +11,5 @@ public class Goal_Rest : Goal_Base
         return _priority;
     }
 
-    public override bool CanRun()
-    {
-        //Debug.Log("Can Run Goal_Rest");
-
-        //return !(worldState.currentStamina > 0);
-        return !(worldState.floatValues[WorldStateValues.currentStamina] > 0);
-    }
+    public override bool CanRun() => !(worldState.floatValues[WorldStateValues.currentStamina] > 0);
 }
